@@ -56,7 +56,7 @@ pipeline {
 
       sh 'oc project open1'
 	  
-	  //sh 'oc delete bc/abc && oc delete is/abc'
+	  sh 'oc delete all --all'
 
       sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
      }
