@@ -8,9 +8,11 @@ pipeline {
   // Using Maven build the war file
   // Do not run tests in this step 
   stage('Build JAR') {
+	  steps {
    withMaven(maven: 'apache-maven-3.3.9') {
     bat "${mvn} clean install -DskipTests=true"
    }
+  }
   }
 
   // Using Maven run the unit tests
@@ -29,6 +31,7 @@ pipeline {
      bat '${mvn} sonar:sonar -Dsonar.host.url=http://localhost:9000   -Dsonar.login=aab02659e091858dfd99ddace56d44c604390a52'
     }
    }
+  }
 
    // Publish the latest war file to Nexus. This needs to go into <nexusurl>/repository/releases.
    stage('Publish to Nexus') {
@@ -36,7 +39,7 @@ pipeline {
      withMaven(maven: 'apache-maven-3.3.9') {
       sh "${mvn} deploy -DskipTests=true"
      }
-    }
+   }}
 
     stage('Approve to Deploy on Openshift') {
      steps {
