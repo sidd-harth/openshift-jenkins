@@ -16,7 +16,7 @@ pipeline {
    }
   }
   }
-/*
+
   // Using Maven run the unit tests
   stage('Unit Tests') {
    steps {
@@ -63,7 +63,7 @@ pipeline {
     stage('Start Build') {
      steps {
       sh "rm -rf oc-build && mkdir -p oc-build/deployments"
-      sh "cp target/student-services-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.jar"
+      sh "cp target/openshift-jenkins-0.0.1-SNAPSHOT.jar oc-build/deployments/ROOT.jar"
 
       sh 'oc start-build abc --from-dir=oc-build --wait=true  --follow'
      }
@@ -79,6 +79,6 @@ pipeline {
       sh ' oc scale --replicas=10 dc abc'
      }
     }
-*/
+
    }
   }
