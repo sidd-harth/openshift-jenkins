@@ -11,6 +11,8 @@ pipeline {
 	  steps {
    withMaven(maven: 'apache-maven-3.3.9') {
     bat "${mvn} clean install -DskipTests=true"
+	
+	 archive 'target/*.jar'
    }
   }
   }
