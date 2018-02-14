@@ -16,7 +16,7 @@ pipeline {
    }
   }
   }
-
+/*
   // Using Maven run the unit tests
   stage('Unit Tests') {
    steps {
@@ -79,6 +79,6 @@ pipeline {
       sh ' oc scale --replicas=10 dc abc'
      }
     }
-
+*/
    }
   }
