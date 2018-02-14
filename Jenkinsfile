@@ -55,6 +55,8 @@ pipeline {
       sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
 
       sh 'oc project open1'
+	  
+	  sh 'oc delete bc/abc && oc delete is/abc'
 
       sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
      }
@@ -76,7 +78,7 @@ pipeline {
     }
     stage('Scaling') {
      steps {
-      sh ' oc scale --replicas=10 dc abc'
+      sh ' oc scale --replicas=2 dc abc'
      }
     }
 
