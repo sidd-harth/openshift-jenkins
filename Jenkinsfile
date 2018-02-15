@@ -3,6 +3,8 @@ def version() {
             def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
             matcher ? matcher[0][1] : null
           }
+def v = version()
+
 		  
 pipeline {
  agent any
@@ -94,7 +96,6 @@ pipeline {
                       input message: "Promote to STAGE?", ok: "Promote"
 			  }	
 			  
-			  def v = version()
 			   // tag for stage
                sh "oc tag development/abc:latest production/abc:${v}"
                // clean up. keep the imagestream
