@@ -4,8 +4,12 @@ pipeline {
  agent any
 
  stages {
-	 stage('check parameters'){
-		steps{ echo "${PROD_NAME} ${APP_NAME} ${DEV_NAME} ${MASTER_URL} ${OAUTH_TOKEN} "
+	 stage('Check Entered Parameters'){
+		steps{ 
+		echo "Production App Name - ${PROD_NAME}" 
+		echo "Application Name - ${APP_NAME}" 
+		echo "Development App Name - ${DEV_NAME}"
+		echo "Master Host - ${MASTER_URL}"
 	 }}
 
   // Using Maven build the war file
@@ -96,7 +100,7 @@ pipeline {
 			  stage('Deploy in Prodiuction') {
                 steps {
 					 // tag for stage
-               sh "oc tag ${DEV_NAME}/${APP_NAME}:latest ${PROD_NAME}/${APP_NAM}}:${env.BUILD_ID}"
+               sh "oc tag ${DEV_NAME}/${APP_NAME}:latest ${PROD_NAME}/${APP_NAME}:${env.BUILD_ID}"
                // clean up. keep the imagestream
                sh "oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${PROD_NAME}"
                // deploy stage image
