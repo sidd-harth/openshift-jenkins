@@ -66,7 +66,9 @@ pipeline {
 
     sh 'oc project ${DEV_NAME}'
 
-    sh 'oc delete all --all'
+    //sh 'oc delete all --all'
+	// clean up. keep the imagestream
+    sh 'oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${DEV_NAME}'
 
     sh 'oc new-build --name=${APP_NAME} redhat-openjdk18-openshift --binary=true'
    }
