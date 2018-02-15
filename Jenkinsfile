@@ -47,14 +47,14 @@ pipeline {
      }
    }}
 
-    stage('Approve to Deploy on Openshift') {
+    stage('Approve to Deploy on Openshift?') {
      steps {
       timeout(time: 2, unit: 'DAYS') {
        input message: 'Do you want to Approve?'
       }
      }
     }
-    stage('New Build') {
+    stage('Openshift New Build') {
      steps {
       sh 'oc login https://192.168.99.100:8443 --token=BDPyLv1Od8q_7bx1rfLnyOvhk00MvdZsTbND67IU2fk --insecure-skip-tls-verify' 
 
@@ -66,7 +66,7 @@ pipeline {
      }
     }
 
-    stage('Start Build') {
+    stage('Openshift Start Build') {
      steps {
 		//sh "pwd" 
 		sh " curl -O -X GET -u admin:admin123 http://localhost:8081/repository/snapshot/com/openshift/test/openshift-jenkins/0.0.1-SNAPSHOT/openshift-jenkins-0.0.1-20180214.210246-15.jar "
@@ -76,7 +76,7 @@ pipeline {
       sh 'oc start-build abc --from-dir=oc-build --wait=true  --follow'
      }
     }
-    stage('Deploy & Expose') {
+    stage('Deploy in DEV') {
      steps {
       sh 'oc new-app abc'
       sh 'oc expose svc/abc'
@@ -92,16 +92,19 @@ pipeline {
                 steps {
                   timeout(time:15, unit:'MINUTES') {
                       input message: "Promote to STAGE?", ok: "Promote"
-			  }	
+			  }	}}
 			  
-			  
-			   // tag for stage
-               sh "oc tag development/abc:latest production/abc:213"
+			  stage('Deploy in PROD') {
+                steps {
+					 // tag for stage
+               sh "oc tag development/abc:latest production/abc:${env.BUILD_ID}"
                // clean up. keep the imagestream
                sh "oc delete bc,dc,svc,route -l app=abc -n production"
                // deploy stage image
-               sh "oc new-app abc:213 -n production"
+               sh "oc new-app abc:${env.BUILD_ID} -n production"
                sh "oc expose svc/abc -n production"
-			  } }
+                  	}}
+			  
+	
    }
   }
