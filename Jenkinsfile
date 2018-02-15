@@ -10,6 +10,7 @@ pipeline {
 		echo "Application Name - ${APP_NAME}" 
 		echo "Development App Name - ${DEV_NAME}"
 		echo "Master Host - ${MASTER_URL}"
+		echo "Number of Replicas - ${SCALE_APP}"
 	 }}
 
   // Using Maven build the war file
