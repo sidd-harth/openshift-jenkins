@@ -111,7 +111,7 @@ pipeline {
 
   stage('Scaling Application') {
    steps {
-    sh ' oc scale --replicas=${SCALE_APP} dc ${APP_NAME}'
+    sh ' oc scale --replicas=${SCALE_APP} dc ${APP_NAME} -n ${PROD_NAME}'
    }
   }
 
