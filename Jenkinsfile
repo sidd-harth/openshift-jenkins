@@ -4,7 +4,7 @@ pipeline {
  agent any
 
  stages {
-	 stage(check parameters){
+	 stage('check parameters'){
 		steps{ sh "${PROD_NAME} ${APP_NAME} ${DEV_NAME} ${MASTER_URL} ${OAUTH_TOKEN} "
 	 }}
 
