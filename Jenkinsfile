@@ -1,9 +1,5 @@
 def mvn = "mvn -s nexusconfigurations/nexus.xml"
-def version() {
-            def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
-            matcher ? matcher[0][1] : null
-          }
-		  
+
 pipeline {
  agent any
 
@@ -11,7 +7,7 @@ pipeline {
 
   // Using Maven build the war file
   // Do not run tests in this step 
-  stage('Build JAR') {
+  stage('Build Artifact') {
 	  steps {
    withMaven(maven: 'apache-maven-3.3.9') {
     bat "${mvn} clean install -DskipTests=true"
@@ -22,7 +18,7 @@ pipeline {
   }
 
   // Using Maven run the unit tests
-  stage('Unit Tests') {
+  stage('jUnit Tests') {
    steps {
     withMaven(maven: 'apache-maven-3.3.9') {
      bat "${mvn} test"
@@ -40,7 +36,7 @@ pipeline {
   }
 
    // Publish the latest war file to Nexus. This needs to go into <nexusurl>/repository/releases.
-   stage('Publish to Nexus') {
+   stage('Publish to Nexus Repository') {
     steps {
      withMaven(maven: 'apache-maven-3.3.9') {
       bat "${mvn} deploy -DskipTests=true"
@@ -56,13 +52,13 @@ pipeline {
     }
     stage('Openshift New Build') {
      steps {
-      sh 'oc login https://192.168.99.100:8443 --token=BDPyLv1Od8q_7bx1rfLnyOvhk00MvdZsTbND67IU2fk --insecure-skip-tls-verify' 
+      sh 'oc login ${MASTER_URL} --token=${OAUTH_TOKEN} --insecure-skip-tls-verify' 
 
-      sh 'oc project development'
+      sh 'oc project ${DEV_NAME}'
 	  
 	  sh 'oc delete all --all'
 
-      sh 'oc new-build --name=abc redhat-openjdk18-openshift --binary=true'
+      sh 'oc new-build --name=${APP_NAME} redhat-openjdk18-openshift --binary=true'
      }
     }
 
@@ -73,36 +69,36 @@ pipeline {
       sh "rm -rf oc-build && mkdir -p oc-build/deployments"
       sh "cp ./openshift-jenkins-0.0.1-20180214.210246-15.jar oc-build/deployments/ROOT.jar"
 
-      sh 'oc start-build abc --from-dir=oc-build --wait=true  --follow'
+      sh 'oc start-build ${APP_NAME} --from-dir=oc-build --wait=true  --follow'
      }
     }
-    stage('Deploy in DEV') {
+    stage('Deploy in Development') {
      steps {
-      sh 'oc new-app abc'
-      sh 'oc expose svc/abc'
+      sh 'oc new-app ${APP_NAME}'
+      sh 'oc expose svc/${APP_NAME}'
      }
     }
-    stage('Scaling') {
+    stage('Scaling Application') {
      steps {
-      sh ' oc scale --replicas=2 dc abc'
+      sh ' oc scale --replicas=2 dc ${APP_NAME}'
      }
     }
 	
-              stage('Promote to STAGE?') {
+              stage('Promote to Production?') {
                 steps {
-                  timeout(time:15, unit:'MINUTES') {
-                      input message: "Promote to STAGE?", ok: "Promote"
+                  timeout(time:2, unit:'DAYS') {
+                      input message: "Promote to Production?", ok: "Promote"
 			  }	}}
 			  
-			  stage('Deploy in PROD') {
+			  stage('Deploy in Prodiuction') {
                 steps {
 					 // tag for stage
-               sh "oc tag development/abc:latest production/abc:${env.BUILD_ID}"
+               sh "oc tag ${DEV_NAME}/${APP_NAME}:latest ${PROD_NAME}/${APP_NAM}}:${env.BUILD_ID}"
                // clean up. keep the imagestream
-               sh "oc delete bc,dc,svc,route -l app=abc -n production"
+               sh "oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${PROD_NAME}"
                // deploy stage image
-               sh "oc new-app abc:${env.BUILD_ID} -n production"
-               sh "oc expose svc/abc -n production"
+               sh "oc new-app ${APP_NAME}:${env.BUILD_ID} -n ${PROD_NAME}"
+               sh "oc expose svc/${APP_NAME} -n ${PROD_NAME}"
                   	}}
 			  
 	
