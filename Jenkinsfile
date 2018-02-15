@@ -52,7 +52,7 @@ pipeline {
     }
     stage('New Build') {
      steps {
-      sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
+      sh 'oc login https://192.168.99.100:8443 --token=BDPyLv1Od8q_7bx1rfLnyOvhk00MvdZsTbND67IU2fk --insecure-skip-tls-verify' 
 
       sh 'oc project development'
 	  
