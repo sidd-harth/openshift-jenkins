@@ -54,7 +54,7 @@ pipeline {
      steps {
       sh 'oc login https://192.168.99.100:8443 --token=G2AsDzhLjmwyBsRCYmRu0EekAGGetQlFJewtR2XmyVA --insecure-skip-tls-verify'
 
-      sh 'oc project open1'
+      sh 'oc project development'
 	  
 	  sh 'oc delete all --all'
 
