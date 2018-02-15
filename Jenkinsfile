@@ -4,7 +4,7 @@ pipeline {
  agent any
 
  stages {
-	 stage('Check Entered Parameters'){
+	 stage('Check Parameters'){
 		steps{ 
 		echo "Production App Name - ${PROD_NAME}" 
 		echo "Application Name - ${APP_NAME}" 
@@ -25,7 +25,7 @@ pipeline {
   }
 
   // Using Maven run the unit tests
-  stage('jUnit Tests') {
+  stage('Unit Tests') {
    steps {
     withMaven(maven: 'apache-maven-3.3.9') {
      bat "${mvn} test"
@@ -50,7 +50,7 @@ pipeline {
      }
    }}
 
-    stage('Approve to Deploy on Openshift?') {
+    stage('Deploy on Openshift?') {
      steps {
       timeout(time: 2, unit: 'DAYS') {
        input message: 'Do you want to Approve?'
@@ -87,7 +87,7 @@ pipeline {
     }
     stage('Scaling Application') {
      steps {
-      sh ' oc scale --replicas=2 dc ${APP_NAME}'
+      sh ' oc scale --replicas=${SCALE_APP} dc ${APP_NAME}'
      }
     }
 	
