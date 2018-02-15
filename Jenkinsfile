@@ -83,6 +83,20 @@ pipeline {
       sh ' oc scale --replicas=2 dc abc'
      }
     }
-
+	
+              stage('Promote to STAGE?') {
+                steps {
+                  timeout(time:15, unit:'MINUTES') {
+                      input message: "Promote to STAGE?", ok: "Promote"
+			  }	
+			  
+			   // tag for stage
+               sh "oc tag development/tasks:latest production/tasks:213"
+               // clean up. keep the imagestream
+               sh "oc delete bc,dc,svc,route -l app=tasks -n production"
+               // deploy stage image
+               sh "oc new-app tasks:${v} -n production"
+               sh "oc expose svc/tasks -n production"
+			  } }
    }
   }
