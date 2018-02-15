@@ -100,11 +100,11 @@ pipeline {
   stage('Deploy in Prodiuction') {
    steps {
     // tag for stage
-    sh 'oc tag ${DEV_NAME}/${APP_NAME}:latest ${PROD_NAME}/${APP_NAME}:${env.BUILD_ID}'
+    sh "oc tag ${DEV_NAME}/${APP_NAME}:latest ${PROD_NAME}/${APP_NAME}:${env.BUILD_ID}"
      // clean up. keep the imagestream
     sh 'oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${PROD_NAME}'
      // deploy stage image
-    sh 'oc new-app ${APP_NAME}:${env.BUILD_ID} -n ${PROD_NAME}'
+    sh "oc new-app ${APP_NAME}:${env.BUILD_ID} -n ${PROD_NAME}"
     sh 'oc expose svc/${APP_NAME} -n ${PROD_NAME}'
    }
   }
