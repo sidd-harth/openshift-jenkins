@@ -97,11 +97,11 @@ pipeline {
 			  }	
 			  
 			   // tag for stage
-               sh "oc tag development/abc:latest production/abc:${v}"
+               sh "oc tag development/abc:latest production/abc:111"
                // clean up. keep the imagestream
                sh "oc delete bc,dc,svc,route -l app=abc -n production"
                // deploy stage image
-               sh "oc new-app abc:${v} -n production"
+               sh "oc new-app abc:111 -n production"
                sh "oc expose svc/abc -n production"
 			  } }
    }
