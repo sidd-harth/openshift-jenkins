@@ -4,6 +4,9 @@ pipeline {
  agent any
 
  stages {
+	 stage(check parameters){
+		steps{ sh "${PROD_NAME} ${APP_NAME} ${DEV_NAME} ${MASTER_URL} ${OAUTH_TOKEN} "
+	 }}
 
   // Using Maven build the war file
   // Do not run tests in this step 
