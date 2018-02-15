@@ -88,11 +88,6 @@ pipeline {
     sh 'oc expose svc/${APP_NAME}'
    }
   }
-  stage('Scaling Application') {
-   steps {
-    sh ' oc scale --replicas=${SCALE_APP} dc ${APP_NAME}'
-   }
-  }
 
   stage('Promote to Production?') {
    steps {
@@ -114,6 +109,11 @@ pipeline {
    }
   }
 
+  stage('Scaling Application') {
+   steps {
+    sh ' oc scale --replicas=${SCALE_APP} dc ${APP_NAME}'
+   }
+  }
 
  }
 }
