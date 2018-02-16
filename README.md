@@ -1,6 +1,6 @@
 ## CI/CD Demo - Openshift Jenkins Setup(OJS) - OpenShift Container Platform 3.7
 
-![pipeline](https://user-images.githubusercontent.com/28925814/36300182-2c9007fa-1326-11e8-83cb-87879c48b64b.jpg)
+![pipeline](https://user-images.githubusercontent.com/28925814/36300586-f302f4b4-1327-11e8-8df6-a1ecdafa5560.jpg)
 
 This repository includes the pipeline definition for a Spring Boot Application to achieve continuous delivery using Jenkins, Nexus and SonarQube on OpenShift. On every pipeline execution, the code goes through the following steps:
 
