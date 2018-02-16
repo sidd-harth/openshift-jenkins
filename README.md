@@ -8,7 +8,7 @@ This repository includes the pipeline definition for a Spring Boot Application t
 2. The JAR artifact is pushed to `Nexus Repository manager`.
 3. A container image (app:latest) is built based on the application JAR artifact deployed on `Open JDK`.
 4. The container image is deployed in a fresh new container in **DEVEPLOMENT project**.
-5. If tests successful, the DEV image is tagged with the `Jenkins Build Version (app:xx)` in the PRODUCTION project.
+5. If integration tests are successful, the DEV image is tagged with the `Jenkins Build Number (app:xx)` in the PRODUCTION project.
 6. The production image is deployed in a fresh new container in the **PRODUCTION project**.
 
 
