@@ -93,15 +93,18 @@ pipeline {
     sh 'oc expose svc/${APP_NAME}'
    }
   }
-	stage('Integration Test') {
-	   steps {
-		sh 'response=$(curl -s -o /dev/null -w "%{http_code}\n" http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check)
-			if [ "$response" != "200" ]
-			then
-				exit 1
-			fi'
-		}
-	  }
+	stage('Integration Tests') {
+steps {
+    parallel(
+      "Status Code": {
+        sh "curl -I -s -L http://sid-dev.192.168.99.100.nip.io/check.com | grep "200"
+      },
+      "Content": {
+        sh "curl -s http://sid-dev.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
+      }
+    )
+  }
+ }
   stage('Promote to Production?') {
    steps {
     timeout(time: 2, unit: 'DAYS') {
