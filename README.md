@@ -1,5 +1,7 @@
 ## CI/CD Demo - Openshift Jenkins Setup(OJS) - OpenShift Container Platform 3.7
 
+![pipeline](https://user-images.githubusercontent.com/28925814/36300182-2c9007fa-1326-11e8-83cb-87879c48b64b.jpg)
+
 This repository includes the pipeline definition for a Spring Boot Application to achieve continuous delivery using Jenkins, Nexus and SonarQube on OpenShift. On every pipeline execution, the code goes through the following steps:
 
 1. Code is cloned from GitHub(this repo), built, tested using `JUnit` tests and analyzed by `SonarQube`.
@@ -43,4 +45,4 @@ oc create -f https://gist.githubusercontent.com/tqvarnst/3ca512b01b7b7c1a1da0532
 * Explore App - Dev project in OpenShift console and verify the application is deployed in the DEV environment.
 * Explore App - Prod project in OpenShift console and verify the application is deployed in the PROD environment.
 4. Try changing the unit tests to fail them & then pipeline will fail during unit tests due to the enabled changed condition.
-![pipeline](https://user-images.githubusercontent.com/28925814/36300182-2c9007fa-1326-11e8-83cb-87879c48b64b.jpg)
+
