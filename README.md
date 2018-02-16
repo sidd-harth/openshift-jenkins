@@ -1,4 +1,4 @@
-## CI/CD Demo - Openshift Jenkins Setup(OJS) - OpenShift Container Platform 3.7
+# CI/CD - Openshift Jenkins Setup(OJS) - OpenShift Origin 3.7.0
 
 ![pipeline](https://user-images.githubusercontent.com/28925814/36300586-f302f4b4-1327-11e8-8df6-a1ecdafa5560.jpg)
 
