@@ -71,7 +71,7 @@ pipeline {
     sh 'oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${DEV_NAME}'
 	
 	// create build. override the exit code since it complains about exising imagestream
-     sh "oc new-build --name=${APP_NAME} --image-stream=redhat-openjdk18-openshift --binary=true --labels=app=${APP_NAME} -n ${DEV_PROJECT} || true"
+     sh "oc new-build --name=${APP_NAME} --image-stream=redhat-openjdk18-openshift --binary=true --labels=app=${APP_NAME} -n ${DEV_NAME} || true"
 
     //sh 'oc new-build --name=${APP_NAME} redhat-openjdk18-openshift --binary=true'
    }
