@@ -93,7 +93,15 @@ pipeline {
     sh 'oc expose svc/${APP_NAME}'
    }
   }
-
+	stage('Integration Test') {
+	   steps {
+		sh 'response=$(curl -s -o /dev/null -w "%{http_code}\n" http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check)
+			if [ "$response" != "200" ]
+			then
+				exit 1
+			fi'
+		}
+	  }
   stage('Promote to Production?') {
    steps {
     timeout(time: 2, unit: 'DAYS') {
