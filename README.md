@@ -1,4 +1,4 @@
-# CI/CD - Openshift Jenkins Setup(OJS) - OpenShift Origin 3.7.0
+# CI/CD - Openshift Jenkins Demo - OpenShift Origin 3.7.0
 
 ![pipeline](https://user-images.githubusercontent.com/28925814/36300586-f302f4b4-1327-11e8-8df6-a1ecdafa5560.jpg)
 
@@ -31,8 +31,8 @@ This repository includes the pipeline definition for a Spring Boot Application t
 ## Setup on OpenShift
 Follow these [instructions](https://github.com/openshift/origin) in order to create a local OpenShift cluster. Otherwise using your current OpenShift cluster, create the following projects for components, Dev and Prod environments:
 ```
-oc new-project dev --display-name="OJS - Development"
-oc new-project prod --display-name="OJS - Production"
+oc new-project dev --display-name="OJD - Development"
+oc new-project prod --display-name="OJD - Production"
 
 //Login as admin & create ImageStream in project openshift
 oc create -f https://gist.githubusercontent.com/tqvarnst/3ca512b01b7b7c1a1da0532939350e23/raw/1973a8baf6e398f534613108e0ec5a774a76babe/openjdk-s2i-imagestream.json
