@@ -14,8 +14,8 @@ This repository includes the pipeline definition for a Spring Boot Application t
 ![architecture](https://user-images.githubusercontent.com/28925814/36306387-8109b634-133d-11e8-9205-eee64c9cc2eb.jpg)
 
 ## Prerequisites
-* 8+ GB memory for OpenShift (10+ GB memory if using SonarQube & Nexus)
-* Openjdk-s2i-imagestream imported to OpenShift (see Troubleshooting section for details)
+* 8+ GB memory for Local System/Docker/OpenShift (10+ GB memory if using SonarQube & Nexus)
+* Openjdk-s2i-imagestream imported to OpenShift
 
 
 ## Setup on Local System
