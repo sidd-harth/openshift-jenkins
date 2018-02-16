@@ -99,11 +99,11 @@ steps {
     parallel(
       "Status Code": {
 		           // sh 'sleep 20s'
-        sh "curl -I -s -L http://sid-dev.192.168.99.100.nip.io/check | grep 200"
+        sh "curl -I -s -L http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 200"
       },
       "Content String": {
 		            // sh 'sleep 20s'
-        sh "curl -s http://sid-dev.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
+        sh "curl -s http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
       }
     )
   }
