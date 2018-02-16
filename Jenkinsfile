@@ -91,17 +91,18 @@ pipeline {
    steps {
     sh 'oc new-app ${APP_NAME}'
     sh 'oc expose svc/${APP_NAME}'
+	sh 'sleep 20s'
    }
   }
 	stage('Integration Tests') {
 steps {
     parallel(
       "Status Code": {
-		            sh 'sleep 20s'
+		           // sh 'sleep 20s'
         sh "curl -I -s -L http://sid-dev.192.168.99.100.nip.io/check | grep 200"
       },
       "Content String": {
-		             sh 'sleep 20s'
+		            // sh 'sleep 20s'
         sh "curl -s http://sid-dev.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
       }
     )
