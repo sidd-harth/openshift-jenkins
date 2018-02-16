@@ -38,11 +38,16 @@ oc create -f https://gist.githubusercontent.com/tqvarnst/3ca512b01b7b7c1a1da0532
 ```
 ## Guide
 1. Start Jenkins Build & Enter the parameters.
-2. Pipelines pauses at two STAGE's for approval in order to start Openshift deployment & promote the build to the PRODUCTION environment. Click on this step on the pipeline and then Promote.
+2. Pipelines pauses at two STAGE's for approval. Click on this step on the pipeline and then Promote.
 3. After pipeline completion, check the following:
-* Explore the snapshots repository in Nexus and verify JAR is pushed to the repository.
-* Explore SonarQube check the metrics, stats, code coverage, etc.
-* Explore App - Dev project in OpenShift console and verify the application is deployed in the DEV environment.
-* Explore App - Prod project in OpenShift console and verify the application is deployed in the PROD environment.
+  * Explore the snapshots repository in Nexus and verify JAR is pushed to the repository.
+  * Explore SonarQube check the metrics, stats, code coverage, etc.
+  * Explore App - Dev project in OpenShift console and verify the application is deployed in the DEV environment.
+  * Explore App - Prod project in OpenShift console and verify the application is deployed in the PROD environment.
 4. Try changing the unit tests to fail them & then pipeline will fail during unit tests due to the enabled changed condition.
 
+## Issues
+In Jenkinsfile @ `stage('Openshift Start Build')` I am using cURL to download a specific JAR from Nexus. Currently this step is **hardcoded**. Trying to find a Nexus REST API to download *latest/newest JAR* from Repo.
+```
+curl -O -X GET -u admin:admin123 http://localhost:8081/repository/snapshot/com/openshift/test/openshift-jenkins/0.0.1-SNAPSHOT/openshift-jenkins-0.0.1-20180214.210246-15.jar
+```
