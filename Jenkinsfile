@@ -100,7 +100,7 @@ steps {
 		            sh 'sleep 10s'
         sh "curl -I -s -L http://sid-dev.192.168.99.100.nip.io/check.com | grep 200"
       },
-      "Content": {
+      "Content String": {
 		            sh 'sleep 10s'
         sh "curl -s http://sid-dev.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
       }
