@@ -67,10 +67,10 @@ pipeline {
     sh 'oc project ${DEV_NAME}'
 
     sh 'oc delete all --all'
-	// clean up. keep the imagestream
-    //sh 'oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${DEV_NAME}'
-	
-	// create build. override the exit code since it complains about exising imagestream
+     // clean up. keep the imagestream
+     //sh 'oc delete bc,dc,svc,route -l app=${APP_NAME} -n ${DEV_NAME}'
+
+    // create build. override the exit code since it complains about exising imagestream
     // sh "oc new-build --name=${APP_NAME} --image-stream=redhat-openjdk18-openshift --binary=true --labels=app=${APP_NAME} -n ${DEV_NAME} || true"
 
     sh 'oc new-build --name=${APP_NAME} redhat-openjdk18-openshift --binary=true'
@@ -91,23 +91,23 @@ pipeline {
    steps {
     sh 'oc new-app ${APP_NAME}'
     sh 'oc expose svc/${APP_NAME}'
-	sh 'sleep 20s'
+    sh 'sleep 40s'
    }
   }
-	stage('Integration Tests') {
-steps {
+  stage('Integration Tests') {
+   steps {
     parallel(
-      "Status Code": {
-		           // sh 'sleep 20s'
-        sh "curl -I -s -L http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 200"
-      },
-      "Content String": {
-		            // sh 'sleep 20s'
-        sh "curl -s http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
-      }
+     "Status Code": {
+      // sh 'sleep 20s'
+      sh "curl -I -s -L http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 200"
+     },
+     "Content String": {
+      // sh 'sleep 20s'
+      sh "curl -s http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
+     }
     )
+   }
   }
- }
   stage('Promote to Production?') {
    steps {
     timeout(time: 2, unit: 'DAYS') {
