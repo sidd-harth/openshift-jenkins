@@ -104,7 +104,7 @@ pipeline {
      },
      "Content String": {
       // sh 'sleep 20s'
-      sh "curl -s http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running...'"
+      sh "curl -s http://${APP_NAME}-${DEV_NAME}.192.168.99.100.nip.io/check | grep 'Yeah, This service is deployed & it is running!!!!!!!!!!!!!!'"
      }
     )
    }
