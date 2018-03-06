@@ -94,7 +94,7 @@ pipeline {
    steps {
     sh 'oc new-app ${APP_NAME}'
     sh 'oc expose svc/${APP_NAME}'
-    sh 'sleep 40s'
+    sh 'sleep 60s'
    }
   }
   stage('Integration Tests') {
